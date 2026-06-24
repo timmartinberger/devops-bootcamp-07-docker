@@ -1,4 +1,12 @@
-node_modules
-.DS_Store
+.idea
+*.DS_Store
 
-.idea/*
+build
+.gradle
+gradle.properties
+
+*tgz
+out
+target
+
+
