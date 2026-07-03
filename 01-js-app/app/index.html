@@ -1,22 +1,104 @@
 <html lang="en">
   <script>
+
+    const URL_PROFILE = "/api/profile";
+    let PROFILE = {};
+
+    document.addEventListener("DOMContentLoaded", function(e) {
+        const urlParams = new URLSearchParams(window.location.search);
+        let user = urlParams.get("user");
+        if (user) fetchProfile(user);
+    });
+
+    function profileDataComplete(profileData) {
+        // Checks whether the user data is complete
+        return (profileData && profileData.user && profileData.name && profileData.mail && profileData.interests)
+    }
+
     function editProfile() {
         document.querySelector('.container').style.display = 'none'; 
         document.querySelector('.container-edit').style.display = 'block';
-
+        document.getElementById('input-user').value = document.getElementById('user').textContent;
         document.getElementById('input-name').value = document.getElementById('name').textContent;
         document.getElementById('input-email').value = document.getElementById('email').textContent;
         document.getElementById('input-interests').value = document.getElementById('interests').textContent;
     }
 
     function saveProfile() {
-        document.getElementById('name').textContent = document.getElementById('input-name').value;
-        document.getElementById('email').textContent = document.getElementById('input-email').value;
-        document.getElementById('interests').textContent = document.getElementById('input-interests').value;
+        // Sends the updated profile data to the server
+        let newProfileData = {
+            user: document.getElementById('input-user').value,
+            name: document.getElementById('input-name').value,
+            mail: document.getElementById('input-email').value,
+            interests: document.getElementById('input-interests').value,
+        }
 
+        // Send to server
+        fetch(URL_PROFILE + `?user=${newProfileData.user}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newProfileData)
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                console.log("Saving profile")
+                setProfileData(newProfileData);
+            } else {
+                console.error(data.err)
+            }
+        });
+
+        
         document.querySelector('.container-edit').style.display = 'none'; 
         document.querySelector('.container').style.display = 'block';
     }
+
+    function fetchProfile(user) {
+        // Function to fetch profile data from the server
+        fetch(URL_PROFILE + `?user=${user}`,)
+        .then((response) => response.json())
+        .then(data => {
+            setProfileData(data);
+        });
+    }
+
+    function setProfileData(profileData){
+        // Displays the profile data in the UI and fetches the profile pic
+        if (!profileDataComplete(profileData)) {
+            console.error("Incomplete profile data");
+            alert("Unkown profile!")
+        }
+        // Set profile data to obj
+        PROFILE = profileData;
+
+        // Fields
+        let userField = document.getElementById("user");
+        let nameField = document.getElementById("name");
+        let mailField = document.getElementById("email");
+        let interestsField = document.getElementById("interests");
+
+        // Set field content
+        userField.textContent = PROFILE.user;
+        nameField.textContent = PROFILE.name;
+        mailField.textContent = PROFILE.mail;
+        interestsField.textContent = PROFILE.interests;
+
+        fetch(`/api/profile-picture?user=${PROFILE.user}`)
+        .then(response => response.blob())
+        .then(imageBlob => {
+            const imageObjectURL = URL.createObjectURL(imageBlob);
+            console.log(imageObjectURL)
+            let editContainerImg = document.getElementById("prof-pic-edit");
+            let viewContainerImg = document.getElementById("prof-pic-view");
+            editContainerImg.src = imageObjectURL;
+            viewContainerImg.src = imageObjectURL;
+        });
+
+    }
+
 </script>
 
 <style>
@@ -60,23 +142,27 @@
 <body>
     <div class='container'>
         <h1>User profile</h1>
-        <img src='profile-picture' alt="user-profile">
-        <span>Name: </span><h3 id='name'>Anna Smith</h3>
+        <img id="prof-pic-view" alt="user-profile">
+        <span>User: </span><h3 id='user'></h3>
         <hr />
-        <span>Email: </span><h3 id='email'>anna.smith@example.com</h3>
+        <span>Name: </span><h3 id='name'></h3>
         <hr />
-        <span>Interests: </span><h3 id='interests'>coding</h3>
+        <span>Email: </span><h3 id='email'></h3>
+        <hr />
+        <span>Interests: </span><h3 id='interests'></h3>
         <hr />
         <button class='button' onclick="editProfile()">Edit Profile</button>
     </div>
     <div class='container-edit'>
         <h1>User profile</h1>
-        <img src='profile-picture' alt="user-profile">
-        <span>Name: </span><label for='input-name'></label><input type="text" id='input-name' value='Anna Smith' />
+        <img id="prof-pic-edit" alt="user-profile">
+        <span>User: </span><label for='input-user'></label><input type="text" id='input-user' />
+        <hr>
+        <span>Name: </span><label for='input-name'></label><input type="text" id='input-name' />
         <hr />
-        <span>Email: </span><label for='input-email'></label><input type="email" id='input-email' value='anna.smith@example.com' />
+        <span>Email: </span><label for='input-email'></label><input type="email" id='input-email' />
         <hr />
-        <span>Interests: </span><label for='input-interests'></label><input type="text" id='input-interests' value='coding' />
+        <span>Interests: </span><label for='input-interests'></label><input type="text" id='input-interests' />
         <hr />
         <button class='button' onclick="saveProfile()">Save Profile</button>
     </div>

@@ -7,11 +7,11 @@ RUN mkdir -p /home/app
 
 COPY ./app /home/app
 
-# set default dir so that next commands executes in /home/app dir
+# Set default working directory
 WORKDIR /home/app
 
-# will execute npm install in /home/app because of WORKDIR
+# Runs in /home/app to build node_modules
 RUN npm install
 
-# no need for /home/app/server.js because of WORKDIR
+# Set the startup command
 CMD ["node", "server.js"]
