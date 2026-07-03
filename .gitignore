@@ -4,6 +4,7 @@
 build
 .gradle
 gradle.properties
+node_modules
 
 *tgz
 out
