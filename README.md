@@ -42,8 +42,15 @@
 ---
 
 ## 🔻 Scope of this Module
+- Building apps with Docker 
+- Run multi-service apps consisting of a database and a web app using `docker compose`
+  - Usage of volumes for persistent data
+  - Environment variables to maintain database connections
+- Pushing Docker images to the artifact repository Nexus3
+- Run apps on the remote cloud server created at DigitalOcean
 
 ![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=Docker&logoColor=white) ![Ubuntu](https://img.shields.io/badge/-Ubuntu-E95420?logo=Ubuntu&logoColor=white) ![DigitalOcean](https://img.shields.io/badge/-DigitalOcean-0080FF?logo=DigitalOcean&logoColor=white) ![Nexus](https://img.shields.io/badge/-Sonatype_Nexus-1B1C30?logo=sonatype&logoColor=white) ![Java](https://img.shields.io/badge/-Java-E34F26?logo=java&logoColor=white) ![Gradle](https://img.shields.io/badge/-Gradle-02303A?logo=Gradle&logoColor=white) ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=MySQL&logoColor=white) ![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?logo=MongoDB&logoColor=white) ![phpMyAdmin](https://img.shields.io/badge/-phpMyAdmin-6C78AF?logo=phpmyadmin&logoColor=white)
+
 
 ### Projects
 #### [01-js-app](01-js-app)
