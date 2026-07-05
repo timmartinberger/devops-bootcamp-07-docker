@@ -1,0 +1,44 @@
+services: 
+  # Exercise 3
+  mysql-db:
+    image: mysql:9.7.1
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PW}
+      - MYSQL_USER=${DB_USER}  # Credentials for the app to connect to the DB
+      - MYSQL_PASSWORD=${DB_PWD}
+      - MYSQL_DATABASE=${DB_NAME}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  phpmyadmin:
+    image: phpmyadmin:5.2-apache
+    ports:
+      - 8085:80
+    environment:
+      - PMA_HOST=mysql-db  # This needs to match the database service name
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+  # Exercise 6
+  java-app:
+    image: 134.209.255.127:8082/java-app:1.0.1
+    ports:
+      - 8080:8080
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PWD=${DB_PWD}
+      - DB_NAME=${DB_NAME}
+      - DB_SERVER=mysql-db
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+volumes:
+  mysql-data:  # Named volume to store data to
+    driver: local

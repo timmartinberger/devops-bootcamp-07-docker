@@ -43,10 +43,21 @@
 
 ## 🔻 Scope of this Module
 
-![DigitalOcean](https://img.shields.io/badge/-DigitalOcean-0080FF?logo=DigitalOcean&logoColor=white) ![Ubuntu](https://img.shields.io/badge/-Ubuntu-E95420?logo=Ubuntu&logoColor=white) ![Ubuntu](https://img.shields.io/badge/-Sonatype_Nexus-1B1C30?logo=sonatype&logoColor=white) ![Maven](https://img.shields.io/badge/-Maven-C71A36?logo=apachemaven&logoColor=white) ![Gradle](https://img.shields.io/badge/-Gradle-02303A?logo=Gradle&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=Docker&logoColor=white) ![Ubuntu](https://img.shields.io/badge/-Ubuntu-E95420?logo=Ubuntu&logoColor=white) ![DigitalOcean](https://img.shields.io/badge/-DigitalOcean-0080FF?logo=DigitalOcean&logoColor=white) ![Nexus](https://img.shields.io/badge/-Sonatype_Nexus-1B1C30?logo=sonatype&logoColor=white) ![Java](https://img.shields.io/badge/-Java-E34F26?logo=java&logoColor=white) ![Gradle](https://img.shields.io/badge/-Gradle-02303A?logo=Gradle&logoColor=white) ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=MySQL&logoColor=white) ![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?logo=MongoDB&logoColor=white) ![phpMyAdmin](https://img.shields.io/badge/-phpMyAdmin-6C78AF?logo=phpmyadmin&logoColor=white)
 
 ### Projects
-#### [01-java-gradle-app](01-java-gradle-app)
+#### [01-js-app](01-js-app)
+A small JavaScript app that connects to a MongoDB database, whereas both the JS app and the database were containerized using Docker.
+#### [02-nexus-docker](02-nexus-docker)
+A **_docker-compose.yaml_** to start Nexus3 on the DigitalOcean droplet with. This compose file already contains the settings for the port forwarding and the volume, so that the Nexus service can be started with the one liner `docker compose up -d`.
+#### [03-docker-exercises](03-docker-exercises)
+This is a small Java app that connects to a MySQL database. Detailed information can be found in the project directory. In summary the following things were done:
+- The Java app was build using gradle.
+- A remote Nexus3 server was set up on a cloud server from DigitalOcean.
+- The Java app was pushed a docker repository in Nexus.
+- On the remote server the app and a MySQL database were started using `docker compose`.
+- Sensitive data was handled using environment variables to avoid exploitation of hard coded credentials in the source code.
+
 
 
 ### Lecture Notes
