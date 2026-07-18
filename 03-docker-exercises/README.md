@@ -134,9 +134,11 @@ volumes:
 
 As an admin on Nexus3:
 1. A new docker-hosted repository was created. Note that for docker an extra connector is necessary to connect with docker cli.
+   
 ![Docker repo on nexus](../assets/img/03-docker-hosted-repo.png)
-2. A new role was created that is able to access the repo.
-3. A new user with that role was created.
+
+3. A new role was created that is able to access the repo.
+4. A new user with that role was created.
 
 Back on by dev computer:
 1. Docker prevents http connections (without ssl certificate) by default. Adapt the daemon.json to let the docker cli connect to my http server:
